@@ -1,0 +1,64 @@
+<div id="p2" onclick="handleSelect('3_months', 250, 100, 'p2')" class="card p-6 flex justify-between items-center glow-border border-orange-400/50 border-2 fade-in delay-2">
+            <div>
+                <h3 class="text-lg font-extrabold italic text-orange-500">3 МЕСЯЦА</h3>
+                <p class="text-xs opacity-50">Выбор большинства</p>
+            </div>
+            <div class="text-right">
+                <div class="text-2xl font-black text-orange-500">250 ₽</div>
+                <div class="text-[9px] font-bold opacity-60 uppercase">100 stars ⭐️</div>
+            </div>
+        </div>
+
+        <div id="p3" onclick="handleSelect('1_year', 500, 200, 'p3')" class="card p-6 flex justify-between items-center fade-in delay-3">
+            <div>
+                <h3 class="text-lg font-extrabold italic">1 ГОД</h3>
+                <p class="text-xs text-green-500 font-bold uppercase tracking-widest">Лучшая цена</p>
+            </div>
+            <div class="text-right">
+                <div class="text-2xl font-black">500 ₽</div>
+                <div class="text-[9px] font-bold text-orange-500 uppercase">200 stars ⭐️</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="mt-12 text-center fade-in delay-3">
+        <p class="text-[9px] text-[var(--hint-color)] uppercase tracking-widest leading-loose">
+            Безопасная оплата через Telegram Stars <br>
+            Ключ будет выдан моментально
+        </p>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+        tg.setHeaderColor('secondary_bg_color');
+
+        function handleSelect(id, rub, stars, elId) {
+            // Визуальный эффект выбора
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(c => c.classList.remove('selected', 'glow-border'));
+            
+            const selected = document.getElementById(elId);
+            selected.classList.add('selected');
+
+            // Haptic Feedback (Вибрация)
+            tg.HapticFeedback.notificationOccurred('success');
+
+            // Отправка данных боту с небольшой задержкой для красоты
+            setTimeout(() => {
+                tg.sendData(JSON.stringify({
+                    plan: id,
+                    price_rub: rub,
+                    price_stars: stars
+                }));
+                tg.close();
+            }, 500);
+        }
+    </script>
+</body>
+</html>
+
+
+`
